@@ -17,6 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.eniskaner.eyojcryptoapp.ui.theme.EyojCryptoAppTheme
+import com.eniskaner.eyojcryptoapp.view.CyrptoDetailScreen
+import com.eniskaner.eyojcryptoapp.view.CyrptoListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "cyrpto_list_screen") {
                     composable("cyrpto_list_screen") {
                         //CyrptoListScreen
+                        CyrptoListScreen(navController = navController)
                     }
                     composable("cyrpto_detail_screen/{cyrptoId}/{cyrptoPrice}", arguments = listOf(
                         navArgument("cyrptoId") {
@@ -42,6 +45,12 @@ class MainActivity : ComponentActivity() {
                         val cyrptoPrice = remember {
                             it.arguments?.getString("cyrptoPrice")
                         }
+                        //CyrptoDetailScreen
+                        CyrptoDetailScreen(
+                            id = cyrptoId ?: "",
+                            price = cyrptoPrice ?: "",
+                            navController = navController
+                        )
                     }
                 }
             }

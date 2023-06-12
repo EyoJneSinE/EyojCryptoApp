@@ -9,5 +9,5 @@ fun CyrptoDetailScreen(
     price:String,
     navController: NavController
 ) {
-    
+
 }
