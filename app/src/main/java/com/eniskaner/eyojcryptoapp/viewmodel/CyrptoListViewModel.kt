@@ -7,6 +7,7 @@ import com.eniskaner.eyojcryptoapp.model.CurrencyUIModel
 import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
 import com.eniskaner.eyojcryptoapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +20,34 @@ class CyrptoListViewModel @Inject constructor(
     var errorMessage = mutableStateOf("")
     var isLoading = mutableStateOf(false)
 
+    private var initialCyrptoList = listOf<CurrencyUIModel>()
+    private var isSearchStarting = true
+
     init {
         loadCryptos()
+    }
+
+    fun searchCyrptoList(query : String) {
+        val listToSearch = if(isSearchStarting) {
+            cryptoList.value
+        } else {
+            initialCyrptoList
+        }
+        viewModelScope.launch(Dispatchers.Default) {
+            if (query.isEmpty()) {
+                cryptoList.value = initialCyrptoList
+                isSearchStarting = true
+                return@launch
+            }
+            val results = listToSearch.filter {
+                it.symbol.contains(query.trim(), ignoreCase = true)
+            }
+            if (isSearchStarting) {
+                initialCyrptoList = cryptoList.value
+                isSearchStarting = false
+            }
+            cryptoList.value = results
+        }
     }
 
 
