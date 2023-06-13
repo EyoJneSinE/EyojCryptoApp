@@ -2,9 +2,7 @@ package com.eniskaner.eyojcryptoapp.model
 
 import androidx.recyclerview.widget.DiffUtil
 
-sealed class ListItemUIModel
-
-data class SeekUIModel(val frequency: Int) : ListItemUIModel()
+class ListItemUIModel: ArrayList<CurrencyUIModel>()
 
 data class CurrencyUIModel(
     val ticker: String,
@@ -19,11 +17,11 @@ data class CurrencyUIModel(
     val marketCapitalization: String,
     val lastUpdateTime: Long,
     val isSelected: Boolean = false,
-) : ListItemUIModel()
+)
 
 class ListItemUIModelDiffUtilCallback(
-    private val oldList: List<ListItemUIModel>,
-    private val newList: List<ListItemUIModel>,
+    private val oldList: List<CurrencyUIModel>,
+    private val newList: List<CurrencyUIModel>,
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
@@ -34,7 +32,7 @@ class ListItemUIModelDiffUtilCallback(
         val newItem = newList[newItemPosition]
         if (oldItem is CurrencyUIModel && newItem is CurrencyUIModel) {
             return oldItem.ticker == newItem.ticker
-        } else if (oldItem is SeekUIModel && newItem is SeekUIModel) {
+        } else if (oldItem is CurrencyUIModel && newItem is CurrencyUIModel) {
             return true
         }
         return false
