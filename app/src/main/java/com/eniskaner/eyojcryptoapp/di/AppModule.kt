@@ -1,5 +1,6 @@
 package com.eniskaner.eyojcryptoapp.di
 
+import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
 import com.eniskaner.eyojcryptoapp.service.CyrptoAPI
 import com.eniskaner.eyojcryptoapp.util.Constatnts.API_URL
 import dagger.Module
@@ -13,6 +14,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideCyrptoRepository(
+        api: CyrptoAPI
+    ) = CyrptoRepository(api)
 
     @Singleton
     @Provides
