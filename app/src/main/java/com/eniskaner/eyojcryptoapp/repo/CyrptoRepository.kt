@@ -17,4 +17,13 @@ class CyrptoRepository @Inject constructor(
         }
         return Resource.Success(response)
     }
+
+    suspend fun getCyrpto(fromSymbols: String) : Resource<ListItemUIModel> {
+        val response = try {
+            api.getCyrptoList()
+        } catch (e: Exception) {
+            return Resource.Error("Error")
+        }
+        return Resource.Success(response)
+    }
 }
