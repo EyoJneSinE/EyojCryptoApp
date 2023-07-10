@@ -13,6 +13,8 @@ interface CyrptoAPI {
     suspend fun getCyrptoList() : CyrptoList
 
     //https://api.coinpaprika.com/v1/coins/btc-bitcoin
-    @GET(CYRPTO_ID)
-    suspend fun getCyrpto() : List<Cyrpto>
+    @GET(".")
+    suspend fun getCyrpto(
+        @Query("") id : String
+    ) : List<Cyrpto>
 }
