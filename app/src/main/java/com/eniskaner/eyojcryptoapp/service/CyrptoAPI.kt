@@ -1,5 +1,6 @@
 package com.eniskaner.eyojcryptoapp.service
 
+import com.eniskaner.eyojcryptoapp.model.CyrptoList
 import com.eniskaner.eyojcryptoapp.util.Constatnts.CYRPTO_ID
 import retrofit2.http.GET
 import retrofit2.http.Query
