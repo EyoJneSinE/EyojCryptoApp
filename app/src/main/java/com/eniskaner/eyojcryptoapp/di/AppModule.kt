@@ -2,7 +2,7 @@ package com.eniskaner.eyojcryptoapp.di
 
 import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
 import com.eniskaner.eyojcryptoapp.service.CyrptoAPI
-import com.eniskaner.eyojcryptoapp.util.Constatnts.API_URL
+import com.eniskaner.eyojcryptoapp.util.Constatnts.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ object AppModule {
     fun provideCyrptoApi() : CyrptoAPI {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(API_URL)
+            .baseUrl(BASE_URL)
             .build()
             .create(CyrptoAPI::class.java)
     }
