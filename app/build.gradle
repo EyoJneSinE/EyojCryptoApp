@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -39,7 +40,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.4.7'
     }
     packagingOptions {
         resources {
@@ -67,6 +68,9 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.compose.runtime:runtime:$compose_ui_version"
+    //kotlin serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
 
     implementation "androidx.compose.material:material-icons-core:$compose_ui_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
