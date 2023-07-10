@@ -3,7 +3,7 @@ package com.eniskaner.eyojcryptoapp.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eniskaner.eyojcryptoapp.model.RawUsd
+import com.eniskaner.eyojcryptoapp.model.CyrptoListItem
 import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
 import com.eniskaner.eyojcryptoapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,15 +17,15 @@ class CyrptoListViewModel @Inject constructor(
     private val repository: CyrptoRepository
 ) : ViewModel() {
 
-    var cryptoList = mutableStateOf<List<RawUsd>>(listOf())
+    var cryptoList = mutableStateOf<List<CyrptoListItem>>(listOf())
     var errorMessage = mutableStateOf("")
     var isLoading = mutableStateOf(false)
 
-    private var initialCyrptoList = listOf<RawUsd>()
+    private var initialCyrptoList = listOf<CyrptoListItem>()
     private var isSearchStarting = true
 
     init {
-        loadCryptos("BTC")
+        loadCryptos()
     }
 
     fun searchCyrptoList(query : String) {
@@ -41,7 +41,7 @@ class CyrptoListViewModel @Inject constructor(
                 return@launch
             }
             val results = listToSearch.filter {
-                it.fromsymbol.contains(query.trim(), ignoreCase = true)
+                it.symbol.contains(query.trim(), ignoreCase = true)
             }
             if(isSearchStarting) {
                 initialCyrptoList = cryptoList.value
@@ -50,22 +50,16 @@ class CyrptoListViewModel @Inject constructor(
             cryptoList.value = results
         }
     }
-    fun loadCryptos(fromSymbols: String) {
+    fun loadCryptos() {
         viewModelScope.launch {
             val result = repository.getCyrptoList()
             when(result) {
                 is Resource.Success -> {
-                    val cryptoItems = result.data!!.mapIndexed { index, item ->
-                        RawUsd(item.type, item.market, item.fromsymbol, item.tosymbol, item.flags, item.price, item.lastupdate,
-                            item.median, item.lastvolume, item.lastvolumeto, item.lasttradeid, item.volumeday, item.volumedayto,
-                            item.volume24Hour, item.volume24Hourto, item.openday, item.highday, item.lowday, item.open24Hour, item.high24Hour,
-                            item.low24Hour, item.lastmarket, item.volumehour, item.volumehourto, item.openhour, item.highhour, item.lowhour,
-                            item.toptiervolume24Hour, item.toptiervolume24Hourto, item.change24Hour, item.changepct24Hour, item.changeday,
-                            item.changepctday, item.changehour, item.changepcthour, item.conversiontype, item.conversionsymbol,
-                            item.conversionlastupdate, item.supply, item.mktcap, item.mktcappenalty, item.circulatingsupply, item.circulatingsupplymktcap,
-                            item.totalvolume24H, item.totalvolume24Hto, item.totaltoptiervolume24H, item.totaltoptiervolume24Hto, item.imageurl
+                        val cryptoItems = result.data!!.mapIndexed { index, cyrptoListItem ->
+                        CyrptoListItem(cyrptoListItem.id, cyrptoListItem.is_active, cyrptoListItem.is_new, cyrptoListItem.name,
+                            cyrptoListItem.rank, cyrptoListItem.type, cyrptoListItem.symbol
                         )
-                    } as List<RawUsd>
+                    } as List<CyrptoListItem>
 
                     errorMessage.value = ""
                     isLoading.value = false
