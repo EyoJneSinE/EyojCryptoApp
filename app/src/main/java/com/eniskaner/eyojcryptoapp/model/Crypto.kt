@@ -1,6 +1,6 @@
 package com.eniskaner.eyojcryptoapp.model
 
-data class Cyrpto(
+data class Crypto(
     val description: String,
     val development_status: String,
     val first_data_at: String,

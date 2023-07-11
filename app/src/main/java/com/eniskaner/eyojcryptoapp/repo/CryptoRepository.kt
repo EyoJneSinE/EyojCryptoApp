@@ -1,18 +1,18 @@
 package com.eniskaner.eyojcryptoapp.repo
 
-import com.eniskaner.eyojcryptoapp.model.Cyrpto
-import com.eniskaner.eyojcryptoapp.model.CyrptoList
-import com.eniskaner.eyojcryptoapp.service.CyrptoAPI
+import com.eniskaner.eyojcryptoapp.model.Crypto
+import com.eniskaner.eyojcryptoapp.model.CryptoAllList
+import com.eniskaner.eyojcryptoapp.service.CryptoAPI
 import com.eniskaner.eyojcryptoapp.util.Constatnts.CYRPTO_ID
 import com.eniskaner.eyojcryptoapp.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
-class CyrptoRepository @Inject constructor(
-    private val api: CyrptoAPI
+class CryptoRepository @Inject constructor(
+    private val api: CryptoAPI
 ) {
-    suspend fun getCyrptoList() : Resource<CyrptoList> {
+    suspend fun getCyrptoList() : Resource<CryptoAllList> {
         val response = try {
             api.getCyrptoList()
         } catch (e: Exception) {
@@ -21,7 +21,7 @@ class CyrptoRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getCyrpto(id: String) : Resource<List<Cyrpto>> {
+    suspend fun getCyrpto(id: String) : Resource<List<Crypto>> {
         val response = try {
             api.getCyrpto(CYRPTO_ID)
         } catch (e: Exception) {

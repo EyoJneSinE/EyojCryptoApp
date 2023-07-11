@@ -3,25 +3,24 @@ package com.eniskaner.eyojcryptoapp.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eniskaner.eyojcryptoapp.model.CyrptoListItem
-import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
+import com.eniskaner.eyojcryptoapp.model.CryptoAllListItem
+import com.eniskaner.eyojcryptoapp.repo.CryptoRepository
 import com.eniskaner.eyojcryptoapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class CyrptoListViewModel @Inject constructor(
-    private val repository: CyrptoRepository
+class CryptoListViewModel @Inject constructor(
+    private val repository: CryptoRepository
 ) : ViewModel() {
 
-    var cryptoList = mutableStateOf<List<CyrptoListItem>>(listOf())
+    var cryptoList = mutableStateOf<List<CryptoAllListItem>>(listOf())
     var errorMessage = mutableStateOf("")
     var isLoading = mutableStateOf(false)
 
-    private var initialCyrptoList = listOf<CyrptoListItem>()
+    private var initialCyrptoList = listOf<CryptoAllListItem>()
     private var isSearchStarting = true
 
     init {
@@ -55,11 +54,11 @@ class CyrptoListViewModel @Inject constructor(
             val result = repository.getCyrptoList()
             when(result) {
                 is Resource.Success -> {
-                        val cryptoItems = result.data!!.mapIndexed { index, cyrptoListItem ->
-                        CyrptoListItem(cyrptoListItem.id, cyrptoListItem.is_active, cyrptoListItem.is_new, cyrptoListItem.name,
-                            cyrptoListItem.rank, cyrptoListItem.type, cyrptoListItem.symbol
+                        val cryptoItems = result.data!!.mapIndexed { index, item ->
+                        CryptoAllListItem(item.beta_value, item.circulating_supply, item.first_data_at, item.id,
+                            item.last_updated, item.max_supply, item.name, item.quotes, item.rank, item.symbol, item.total_supply
                         )
-                    } as List<CyrptoListItem>
+                    } as List<CryptoAllListItem>
 
                     errorMessage.value = ""
                     isLoading.value = false

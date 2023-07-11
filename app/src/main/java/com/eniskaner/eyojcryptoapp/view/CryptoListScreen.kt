@@ -23,13 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.eniskaner.eyojcryptoapp.model.RawUsd
-import com.eniskaner.eyojcryptoapp.viewmodel.CyrptoListViewModel
+import com.eniskaner.eyojcryptoapp.model.CryptoAllListItem
+import com.eniskaner.eyojcryptoapp.viewmodel.CryptoListViewModel
 
 @Composable
 fun CyrptoListScreen(
     navController: NavController,
-    viewModel: CyrptoListViewModel = hiltViewModel()
+    viewModel: CryptoListViewModel = hiltViewModel()
 ) {
     Surface(
         color = MaterialTheme.colors.secondary,
@@ -109,7 +109,7 @@ fun SearchBar(
 }
 
 @Composable
-fun CyrptoList(navController: NavController, viewModel: CyrptoListViewModel = hiltViewModel()) {
+fun CyrptoList(navController: NavController, viewModel: CryptoListViewModel = hiltViewModel()) {
 
     val cyrptoList by remember { viewModel.cryptoList }
     val errorMessage by remember { viewModel.errorMessage }
@@ -124,14 +124,14 @@ fun CyrptoList(navController: NavController, viewModel: CyrptoListViewModel = hi
         if (errorMessage.isNotEmpty()) {
             //retryView
             RetryView(error = errorMessage) {
-                viewModel.loadCryptos(fromSymbols = "")
+                viewModel.loadCryptos()
             }
         }
     }
 }
 
 @Composable
-fun CyrptoListView(cyrptos: List<RawUsd>, navController: NavController) {
+fun CyrptoListView(cyrptos: List<CryptoAllListItem>, navController: NavController) {
     LazyColumn(contentPadding = PaddingValues(5.dp)) {
         items(cyrptos) { cyrpto ->
             CyrptoRow(navController = navController, cyrpto = cyrpto)
@@ -140,18 +140,18 @@ fun CyrptoListView(cyrptos: List<RawUsd>, navController: NavController) {
 }
 
 @Composable
-fun CyrptoRow(navController: NavController, cyrpto: RawUsd) {
+fun CyrptoRow(navController: NavController, cyrpto: CryptoAllListItem) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(color = MaterialTheme.colors.secondary)
         .clickable {
             navController.navigate(
-                "cyrpto_detail_screen/${cyrpto.fromsymbol}/${cyrpto.price}"
+                "crypto_detail_screen/${cyrpto.symbol}/${cyrpto.quotes.USD.price}"
             )
         }
     ) {
 
-        Text(text = cyrpto.fromsymbol,
+        Text(text = cyrpto.symbol,
             style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(2.dp),
             fontWeight = FontWeight.Bold,
@@ -159,7 +159,7 @@ fun CyrptoRow(navController: NavController, cyrpto: RawUsd) {
             )
 
 
-        Text(text = cyrpto.price.toString(),
+        Text(text = cyrpto.quotes.USD.price.toString(),
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(2.dp),
             color = MaterialTheme.colors.primaryVariant

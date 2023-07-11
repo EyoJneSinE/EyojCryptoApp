@@ -1,7 +1,7 @@
 package com.eniskaner.eyojcryptoapp.di
 
-import com.eniskaner.eyojcryptoapp.repo.CyrptoRepository
-import com.eniskaner.eyojcryptoapp.service.CyrptoAPI
+import com.eniskaner.eyojcryptoapp.repo.CryptoRepository
+import com.eniskaner.eyojcryptoapp.service.CryptoAPI
 import com.eniskaner.eyojcryptoapp.util.Constatnts.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -18,16 +18,16 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCyrptoRepository(
-        api: CyrptoAPI
-    ) = CyrptoRepository(api)
+        api: CryptoAPI
+    ) = CryptoRepository(api)
 
     @Singleton
     @Provides
-    fun provideCyrptoApi() : CyrptoAPI {
+    fun provideCyrptoApi() : CryptoAPI {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
             .build()
-            .create(CyrptoAPI::class.java)
+            .create(CryptoAPI::class.java)
     }
 }
