@@ -1,5 +1,6 @@
 package com.eniskaner.eyojcryptoapp
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.eniskaner.eyojcryptoapp.ui.theme.EyojCryptoAppTheme
-import com.eniskaner.eyojcryptoapp.view.CyrptoDetailScreen
+import com.eniskaner.eyojcryptoapp.view.CryptoDetailScreen
 import com.eniskaner.eyojcryptoapp.view.CyrptoListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         setContent {
             EyojCryptoAppTheme {
                 val navController = rememberNavController()
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
                         val cryptoPrice = remember {
                             it.arguments?.getString("cryptoPrice")
                         }
-                        CyrptoDetailScreen(
+                        CryptoDetailScreen(
                             id = cryptoId ?: "",
                             price = cryptoPrice ?: "",
                             navController = navController
