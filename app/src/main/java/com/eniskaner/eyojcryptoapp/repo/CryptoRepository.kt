@@ -3,7 +3,6 @@ package com.eniskaner.eyojcryptoapp.repo
 import com.eniskaner.eyojcryptoapp.model.Crypto
 import com.eniskaner.eyojcryptoapp.model.CryptoAllList
 import com.eniskaner.eyojcryptoapp.service.CryptoAPI
-import com.eniskaner.eyojcryptoapp.util.Constatnts.CYRPTO_ID
 import com.eniskaner.eyojcryptoapp.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
@@ -21,9 +20,9 @@ class CryptoRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getCyrpto(id: String) : Resource<List<Crypto>> {
+    suspend fun getCyrpto(id: String) : Resource<Crypto> {
         val response = try {
-            api.getCyrpto(CYRPTO_ID)
+            api.getCyrpto(id)
         } catch (e: Exception) {
             return Resource.Error("Error")
         }
