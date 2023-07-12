@@ -3,17 +3,16 @@ package com.eniskaner.eyojcryptoapp.service
 import com.eniskaner.eyojcryptoapp.model.Crypto
 import com.eniskaner.eyojcryptoapp.model.CryptoAllList
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface CryptoAPI {
-
     //https://api.coinpaprika.com/v1/tickers
-    @GET(".")
+    @GET("tickers")
     suspend fun getCyrptoList() : CryptoAllList
 
     //https://api.coinpaprika.com/v1/coins/btc-bitcoin
-    @GET(".")
+    @GET("coins/{id}")
     suspend fun getCyrpto(
-        @Query(".") id : String
-    ) : List<Crypto>
+        @Path("id") id : String
+    ) : Crypto
 }
