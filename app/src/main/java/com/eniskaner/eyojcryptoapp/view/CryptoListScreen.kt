@@ -35,7 +35,6 @@ fun CyrptoListScreen(
         color = MaterialTheme.colors.secondary,
         modifier = Modifier.fillMaxSize()
     ) {
-        
         Column {
             Text("EyojCyrptoApp", modifier = Modifier
                 .fillMaxWidth()
@@ -45,7 +44,6 @@ fun CyrptoListScreen(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.primary
             )
-            
             Spacer(modifier = Modifier.height(10.dp))
             //Seach
             SearchBar(
@@ -61,25 +59,20 @@ fun CyrptoListScreen(
             //List
             CyrptoList(navController = navController)
         }
-
     }
 }
-
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
     onSearch : (String) -> Unit = {}
 ) {
-
     var text by remember {
         mutableStateOf("")
     }
-
     var isHintDisplayed by remember {
         mutableStateOf(hint != "")
     }
-
     Box(modifier = modifier) {
         BasicTextField(value = text, onValueChange = {
             text = it
@@ -107,7 +100,6 @@ fun SearchBar(
         }
     }
 }
-
 @Composable
 fun CyrptoList(navController: NavController, viewModel: CryptoListViewModel = hiltViewModel()) {
 
@@ -116,7 +108,7 @@ fun CyrptoList(navController: NavController, viewModel: CryptoListViewModel = hi
     val isLoading by remember { viewModel.isLoading }
 
     CyrptoListView(cyrptos = cyrptoList, navController = navController)
-    
+
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         if (isLoading) {
             CircularProgressIndicator(color = MaterialTheme.colors.primary)
@@ -129,7 +121,6 @@ fun CyrptoList(navController: NavController, viewModel: CryptoListViewModel = hi
         }
     }
 }
-
 @Composable
 fun CyrptoListView(cyrptos: List<CryptoAllListItem>, navController: NavController) {
     LazyColumn(contentPadding = PaddingValues(5.dp)) {
@@ -138,7 +129,6 @@ fun CyrptoListView(cyrptos: List<CryptoAllListItem>, navController: NavControlle
         }
     }
 }
-
 @Composable
 fun CyrptoRow(navController: NavController, cyrpto: CryptoAllListItem) {
     Column(modifier = Modifier
@@ -146,30 +136,23 @@ fun CyrptoRow(navController: NavController, cyrpto: CryptoAllListItem) {
         .background(color = MaterialTheme.colors.secondary)
         .clickable {
             navController.navigate(
-                "crypto_detail_screen/${cyrpto.symbol}/${cyrpto.quotes.USD.price}"
+                "crypto_detail_screen/${cyrpto.id}/${cyrpto.quotes.USD.price}"
             )
         }
     ) {
-
         Text(text = cyrpto.symbol,
             style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(2.dp),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.primary
-            )
-
-
+        )
         Text(text = cyrpto.quotes.USD.price.toString(),
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(2.dp),
             color = MaterialTheme.colors.primaryVariant
-            )
-
+        )
     }
-    
 }
-
-
 @Composable
 fun RetryView(
     error: String,
